@@ -1,5 +1,7 @@
 using HelpDeskWeb.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Identity;
 using System.Diagnostics;
 
 namespace HelpDeskWeb.Controllers
@@ -10,8 +12,20 @@ namespace HelpDeskWeb.Controllers
         {
             return View();
         }
-
+        [Authorize]
         public IActionResult Privacy()
+        {
+            return View();
+        }
+        //aqui se modifico de Admin administrador
+        [Authorize(Roles = "Administrador")]
+        public IActionResult Admin()
+        {
+            return View();
+        }
+
+        [Authorize(Roles = "User")]
+        public IActionResult User()
         {
             return View();
         }
