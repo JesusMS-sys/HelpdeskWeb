@@ -1,0 +1,37 @@
+﻿@model List<HelpDeskWeb.Models.TicketStatus>
+
+<h1>Ticket Status</h1>
+
+<div class="row">
+    <div class="col-12">
+        <a asp-controller="TicketStatus" asp-action="Create" class="btn btn-primary">Crear Ticket Status</a>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>CreatedAt</th>
+                    <th>UpdatedAt</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var status in Model)
+                {
+                    <tr>
+                        <td>@status.Name</td>
+                        <td>@status.CreatedAt</td>
+                        <td>@status.UpdatedAt</td>
+                        <td>
+                            <a asp-controller="TicketStatus" asp-action="Edit" asp-route-id="@status.Id" class="btn btn-sm btn-primary">Editar</a>
+                            <form asp-controller="TicketStatus" asp-action="Delete" asp-route-id="@status.Id" method="post" style="display:inline;" onsubmit="return confirm('¿Seguro que deseas eliminar este registro?');">
+                                @Html.AntiForgeryToken()
+                                <input type="hidden" name="id" value="@status.Id" />
+                                <button type="submit" class="btn btn-sm btn-danger">Eliminar</button>
+                            </form>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
