@@ -1,0 +1,37 @@
+﻿@model List<HelpDeskWeb.Models.TicketPriority>
+
+<h1>Ticket Priority</h1>
+
+<div class="row">
+    <div class="col-12">
+        <a asp-controller="TicketPriority" asp-action="Create" class="btn btn-primary">Crear Ticket Priority</a>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>CreatedAt</th>
+                    <th>UpdatedAt</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var priority in Model)
+                {
+                    <tr>
+                        <td>@priority.Name</td>
+                        <td>@priority.CreatedAt</td>
+                        <td>@priority.UpdatedAt</td>
+                        <td>
+                            <a asp-controller="TicketPriority" asp-action="Edit" asp-route-id="@priority.Id" class="btn btn-sm btn-primary">Editar</a>
+                            <form asp-controller="TicketPriority" asp-action="Delete" asp-route-id="@priority.Id" method="post" style="display:inline;" onsubmit="return confirm('¿Seguro que deseas eliminar este registro?');">
+                                @Html.AntiForgeryToken()
+                                <input type="hidden" name="id" value="@priority.Id" />
+                                <button type="submit" class="btn btn-sm btn-danger">Eliminar</button>
+                            </form>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

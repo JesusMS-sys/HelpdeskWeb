@@ -8,6 +8,8 @@ namespace HelpDeskWeb.Data
     public class AppDbContext : IdentityDbContext<User>
     {
         public DbSet<TicketStatus> TicketStatus { get; set; }
+        public DbSet<TicketPriority> TicketPriority { get; set; }
+        public DbSet<Ticket> Tickets { get; set; }
 
         public AppDbContext(DbContextOptions options) : base(options)
         {
@@ -35,6 +37,71 @@ namespace HelpDeskWeb.Data
             builder.Entity<TicketStatus>()
                 .HasIndex(ts => ts.Name)
                 .IsUnique();
+
+            builder.Entity<TicketPriority>()
+            .Property(u => u.CreatedAt)
+            .HasDefaultValueSql("GETUTCDATE()");
+
+            builder.Entity<TicketPriority>()
+            .Property(u => u.UpdatedAt)
+            .HasDefaultValueSql("GETUTCDATE()");
+
+            builder.Entity<TicketPriority>()
+                .HasIndex(tp => tp.Name)
+                .IsUnique();
+
+            builder.Entity<Ticket>()
+                .ToTable("Tickets");
+
+            builder.Entity<Ticket>()
+                .Property(t => t.CreatedAt)
+                .HasDefaultValueSql("GETUTCDATE()");
+
+            builder.Entity<Ticket>()
+                .HasIndex(t => t.TicketNumber)
+                .IsUnique();
+
+            builder.Entity<Ticket>()
+                .HasOne(t => t.CreatedBy)
+                .WithMany()
+                .HasForeignKey(t => t.CreatedById)
+                .IsRequired(false)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            builder.Entity<Ticket>()
+                .HasOne(t => t.AssignedTo)
+                .WithMany()
+                .HasForeignKey(t => t.AssignedToId)
+                .IsRequired(false)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            builder.Entity<Ticket>()
+                .HasOne(t => t.ResolvedBy)
+                .WithMany()
+                .HasForeignKey(t => t.ResolvedById)
+                .IsRequired(false)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            builder.Entity<Ticket>()
+                .HasOne(t => t.ClosedBy)
+                .WithMany()
+                .HasForeignKey(t => t.ClosedById)
+                .IsRequired(false)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            builder.Entity<Ticket>()
+                .HasOne(t => t.Status)
+                .WithMany()
+                .HasForeignKey(t => t.StatusId)
+                .IsRequired(false)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            builder.Entity<Ticket>()
+                .HasOne(t => t.Priority)
+                .WithMany()
+                .HasForeignKey(t => t.PriorityId)
+                .IsRequired(false)
+                .OnDelete(DeleteBehavior.Restrict);
         }
     }
 }
