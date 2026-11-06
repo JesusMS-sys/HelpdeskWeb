@@ -37,12 +37,16 @@
                                 <ul class="dropdown-menu">
                                     <li><a class="dropdown-item" asp-controller="TicketStatus" asp-action="Index">Status</a></li>
                                     <li><a class="dropdown-item" asp-controller="TicketPriority" asp-action="Index">Priorities</a></li>
+                                    <li><a class="dropdown-item" asp-controller="Ticket" asp-action="Index">Tickets</a></li>
                                 </ul>
                             </li>}
                         @if (User.IsInRole("User")) {
                             <li class="nav-item">
                                 <a class="nav-link" asp-controller="Home" asp-action="User">User</a>
-                            </li>}
+                            </li>
+                        <li class="nav-item">
+                            <a class="nav-link" asp-controller="Ticket" asp-action="MyTickets">My Tickets</a>
+                        </li>}
                          <partial name="_LoginPartial" /> 
                     </ul>
                 </div>

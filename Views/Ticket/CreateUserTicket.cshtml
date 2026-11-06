@@ -1,0 +1,26 @@
+﻿@model HelpDeskWeb.ViewModels.CreateUserTicketViewModel
+
+<h1>Crear Ticket</h1>
+<form asp-controller="Ticket" asp-action="CreateUserTicket" method="post">
+    @Html.AntiForgeryToken()
+    <div class="mb-3">
+        <label asp-for="Title" class="from-label"></label>
+        <input asp-for="Title" class="form-control" />
+        <span asp-validation-for="Title" class="text-danger"></span>
+    </div>
+    <div class="mb-3">
+        <label asp-for="Description" class="from-label"></label>
+        <input asp-for="Description" class="form-control" />
+        <span asp-validation-for="Description" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+       <button type="submit" class="btn btn-primary">Guardar</button>
+        <a asp-controller="Ticket" asp-action="MyTickets" class="btn btn-secondary">Regresar</a>
+    </div>
+</form>
+@section Scripts {
+    @{
+
+        await Html.RenderPartialAsync("_ValidationScriptsPartial.cshtml");
+    }
+}
