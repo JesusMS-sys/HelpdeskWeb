@@ -129,7 +129,9 @@ namespace HelpDeskWeb.Controllers
                 {
                     ticket.TicketNumber = $"T-{DateTime.UtcNow:yyyyMMdd}-{Guid.NewGuid().ToString().Substring(0, 4)}";
                 }
+                var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
                 ticket.CreatedAt = DateTime.Now;
+                ticket.CreatedById = userId;
                 _appDbContext.Tickets.Add(ticket);
                 await _appDbContext.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
